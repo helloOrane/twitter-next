@@ -1,0 +1,60 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// relation 1-1
+model UserFollower {
+  id          String @id @default(cuid())
+  follower    User   @relation(fields: [followerId], references: [id], name: "Followers")
+  followerId  String
+  following   User   @relation(fields: [followingId], references: [id], name: "Following")
+  followingId String
+
+  @@unique([followerId, followingId])
+}
+
+model User {
+  id            String         @id @default(cuid())
+  name          String?
+  emailVerified DateTime?
+  image         String?
+  username      String?
+  displayName   String?
+  bio           String?
+  location      String?
+  email         String
+  tweets        Tweet[]
+  followers     UserFollower[] @relation(name: "Followers")
+  following     UserFollower[] @relation(name: "Following")
+  TweetsOnLikes TweetOnLike[]
+}
+
+model Tweet {
+  id        String        @id @default(cuid())
+  content   String
+  createdAt DateTime      @default(now())
+  parent    Tweet?        @relation(name: "Replies", fields: [tweetId], references: [id])
+  replies   Tweet[]       @relation(name: "Replies")
+  user      User          @relation(fields: [userId], references: [id])
+  userId    String
+  tweetId   String?
+  likes     TweetOnLike[]
+}
+
+model TweetOnLike {
+  id      String @id @default(cuid())
+  tweet   Tweet  @relation(fields: [tweetId], references: [id])
+  tweetId String
+  user    User   @relation(fields: [userId], references: [id])
+  userId  String
+
+  @@unique([tweetId, userId])
+}
