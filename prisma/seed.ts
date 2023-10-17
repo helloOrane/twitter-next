@@ -8,7 +8,6 @@ async function main() {
   const usersPromise = [];
     for(let i = 0; i < 10; i++) {
         const user = {
-            // NE PAS METTRE D ID
             name: faker.person.fullName(),
             emailVerified:faker.date.recent(),
             image: faker.image.avatar(),
