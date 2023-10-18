@@ -2,27 +2,19 @@ import NextAuth, { AuthOptions } from "next-auth";
 import GithubProvider from "next-auth/providers/github";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { prisma } from "@/db/prisma";
-
-
-if (!process.env.GITHUB_ID || !process.env.GITHUB_SECRET) {
-  throw new Error("Missing GITHUB_ID or GITHUB_SECRET env variables");
-}
+import { env } from "@/env/server";
 
 export const authOptions: AuthOptions = {
   adapter: PrismaAdapter(prisma),
   // Configure one or more authentication providers
   providers: [
     GithubProvider({
-      clientId: process.env.GITHUB_ID,
-      clientSecret: process.env.GITHUB_SECRET,
+      clientId: env.GITHUB_ID,
+      clientSecret: env.GITHUB_SECRET,
     }),
-    // GoogleProvider({
-    //   clientId: process.env.GOOGLE_CLIENT_ID,
-    //   clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    // }),
   ],
   jwt:{
-    secret: process.env.SECRET,
+    secret: env.NEXTAUTH_SECRET,
   },
   callbacks: {
     session: async ({ session, token }) => {

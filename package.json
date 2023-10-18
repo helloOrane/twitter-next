@@ -29,7 +29,8 @@
     "next": "13.5.4",
     "next-auth": "^4.23.2",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "zod": "^3.22.4"
   },
   "devDependencies": {
     "@faker-js/faker": "^8.2.0",
