@@ -4,7 +4,7 @@ import GoogleProvider from "next-auth/providers/google";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { prisma } from "@/db/prisma";
 
-if(!process.env.GITHUB_ID || !process.env.GITHUB_SECRET ) {
+if (!process.env.GITHUB_ID || !process.env.GITHUB_SECRET) {
   throw new Error("Missing GITHUB_ID or GITHUB_SECRET env variables");
 }
 
@@ -24,4 +24,6 @@ export const authOptions = {
   secret: process.env.SECRET,
 };
 
-export default NextAuth(authOptions);
+const handler = NextAuth(authOptions);
+
+export { handler as GET, handler as POST };
