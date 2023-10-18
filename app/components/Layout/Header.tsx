@@ -9,7 +9,6 @@ export const Header = () => {
       <Link href="/" className="text-2xl font-bold text-blue-300">
         Twitter
       </Link>
-      {/* @ts-expect-error Server Component */}
       <User />
     </header>
   );
